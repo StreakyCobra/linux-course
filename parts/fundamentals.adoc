@@ -1,0 +1,315 @@
+[[part:fundamentals]]
+Fundamentals
+============
+
+== Files ==
+
+As you may now, in Linux everything is a ((file)). Your files, your USB devices, your hard disks, kernel parameters, etc. Even your folders are a special kind of files. So whenever you want to do some actions in Linux, it has to deal with files, or programs using those files. This chapter explains this ground component of Linux.
+
+Names
+~~~~~
+
+Files could be named with any characters, including spaces (but warning about the shells way of dealing with spaces). Some characters must be escaped in the shell with +\+, more on this on the correpsonding part. A rule as be defined for ((hidden)) files and folders: ((names)) starting with "." — like ".myfile.txt" — are hidden files. They are not shown when you list files and folders except if you specifically ask to do so. Also when using ((glob)) patterns, normal files math only the pattern "+\*+", as hidden files math only the pattern "+.*+".
+
+Path
+~~~~
+
+There is two ways to specify ((path))s to linux files: Absolute and Relative.
+
+Absolute path
+^^^^^^^^^^^^^
+
+The Linux filesystem is composed of files and folders, and only this. Files contain informations, and folders are grouping files and folders hierarchically. Because of this hierarchy, there exists a ((root)) folder which originates all others existing files/folders. This "root folder" is represented by the symbol "+/+"(((/))) (called slash). A single slash alone represent the root folder, and any path beginning with a "+/+" is treated as an ((absolute)) path. Any absolute path represents unequivocally one and only one precise file in the system.
+
+Relative path
+^^^^^^^^^^^^^
+
+It is also possible to use ((relative)) path. Without "+/+" at the beginning, a path is considered as relative. So "foo/file.txt" represents the "bar.txt" which is situed in the foo folder in the current directory. The current folder could also be represented by a dot "+.+"(((.))). Anywhere you use "+.+", it means «the current directory». Another relative path is "+..+"(((..))) which means «the parent directory». For instance +../README.txt+ represents the "README.txt" file located in the parent folder.
+
+Files permissions
+~~~~~~~~~~~~~~~~~
+
+In linux, ((files permissions)) are handled in the following way: There is three classes of permissions: 'owner', 'group' and 'other'. Each files/folders have only one UID representing the user identifiant of the owner, one GID representing the group identifiant of the group owning it, and finally other for all users not matching with UID nor GID. For each of those classes, there is three levels of permissions defined: 'read', 'write', 'execute', which can be indepentendly enabled or not. 
+
+All those permission are often represented with 7 digits on the following form (shown by doing +ls -l+ for instance):
+
+----
+drwxrwxrwx
+----
+
+The meaning is the following:
+
+* The first (indicative) character (+d+) specify if this is a directory or not
+* The 3 following characters (+rws+) define access for the owner (UID)
+* The 3 following characters (+rws+) define access for the group (GID)
+* The 3 following characters (+rws+) define access for other users
+
+Some examples:
+
+----
+-rwxr-xr-x # Traditionnal access for files: Owner can modify it, others can read and execute it.
+drwxr-xr-x # Traditionnal access for folder: Owner can modify it, others can read and execute it.
+-rwx------ # A file being only seen and used by the owner
+----
+
+Another way to represent those right are using numerical values. You can read each of the +rws+ parts as a binary number, by replacing +r+, +w+ and +s+ by +1+ if the right is granted, +0+ if not. And read the output as a binary number. An example showing how it works:
+
+----
+-rwxr-xrw-
+- rwx r-x --- # We separate each rws part
+0 111 101 000 # Transform to 0 and 1
+0 7   5   0   # Read as binary numbers
+----
+
+The numerical representation of this permission is then +0750+, or just +750+. This representation can be used with the +chmod+ command to change access right to a file/folders.
+
+Some commonly used access right:
+
+* +644+ for regular files
+* +755+ for regular executable files (like scripts)
+* +755+ for regular folders
+
+[NOTE]
+====
+* Folders must be executable otherwise it is not possible to access them.
+* There exist other special rights like +setuid+, +setgid+, +sticky+, but there are not explained here.
+====
+
+Commands
+~~~~~~~~
+
+To interact with files, there exits different programs which are doing only one precise task. This section gives a short list of the principal ones. Get more info for a command with +man <command>+.
+
+touch
+^^^^^
+mnemo::**touch**
+
+The +touch+(((touch))) command permits to update the timestamps of a file. If the file doesn't exist, it creates it by default. Thus, it can also be used to create empty files.
+
+cat
+^^^
+mnemo::con**CAT**tenate
+
+The +cat+(((cat))) command permits to ((concatenate)) files. It shows the result on the standard output. If you sepcify only one file, it is a way to showing it.
+
+cp
+^^
+mnemo::**C**o**P**y
+
+The +cp+(((cp))) command permits to ((copy)) files and directories. To copy folder recursively, the +-r+ flag must be given.
+
+mv
+^^
+mnemo::**M**o**V**e
+
+The +mv+(((mv))) command permits to ((move)) (or rename) files or directories. Renaming a file is the same as moving it to a new name.
+
+rm
+^^
+mnemo::**R**e**M**ove
+
+The +rm+(((rm))) command permits to ((remove)) files or directories. This command doesn't put files or directories to a trash, they are just wipped out. So be carefull when using it. To remove directories if they are not empty, you need to provides a +-r+ flag (+r+ for «recursive»).
+
+ln
+^^
+mnemo::**L**i**N**k
+
+The +ln+(((ln))) command permits to ((link)) files or directories together. There exist two kinds of links: soft and hard. Soft links ( ((symbolic links)) ), by using the +-s+ flag are refering to a location in the filesystem, for instance to +/home/user/my/file.txt+, and whenever the filesystem encounters a symlink, the link is followed and the other file is used instead. Hard links are dependent of the file system used, but in general the hard linked file points to the same location in memory (same inode) as the linked one. It is not any longer a «link» for the filesystem, but the same file in memory have two files pointing to it. Modifying the file will update both files at the same time. Hard links are used only in a very rare few cases.
+
+
+== Directories ==
+
+The ((directories)) (or ((folders))) in Linux permits to group files together, and files and folders hirerachically. The same naming rules apply for directories as the ones for files. Hidden folders are also recognizable by their "+.+" prefix.
+
+Commands
+~~~~~~~~
+
+To interact with folders, there exit different programs which are doing only one precise task. This section gives a short list of the principal ones. Get more info for a command with +man <command>+.
+
+mkdir
+^^^^^
+mnemo::**M**a**K**e **DIR**ectory
+
+The +mkdir+(((mkdir))) command permits to create new directories. By default it doesn't create folders recursively, but there exists a +-p+ flag which allow to do it.
+
+ls
+^^
+mnemo::**L**i**S**t
+
+The +ls+(((ls))) command permits to ((list)) all files and folders in a directory. The +-a+ flag list also hidden files (+a+ for «all»). To list with more informations, use the +-l+ flag (+l+ for «long»).
+
+pwd
+^^^
+mnemo::**P**rint**W**orking **D**irectory
+
+The +pwd+(((pwd))) command permits to know in which directory we are by printing it.
+
+cd
+^^
+mnemo::**C**hange **D**irectory
+
+The +cd+(((cd))) command permits to change the current directory. It is often used with relative paths like "+..+" to go up one level, in the parent folder. Used without arguments, the +cd+ command will bring you to your home folder.
+
+
+== Processes ==
+
+Processes ID
+~~~~~~~~~~~~
+
+Once a ((process)) is started, it obtains a +pid+ (**P**rocess **ID**entifiant). This number will serve as reference when referencing to it.
+
+Signals
+~~~~~~~
+
+Linux provides several signals for inter-process communication, to inform other processes about events happening. The +SIGTERM+ signal for instance ask for process termination. There exists a lot of others signals.
+
+Commands
+~~~~~~~~
+
+To interact with processes, there exit different programs which are doing only one precise task. This section give a short list of the principal ones. Get more info for a command with +man <command>+.
+
+ps
+^^
+mnemo::**P**rocesse**S**
+
+The +ps+(((ps))) command lists all the running processes. Without any arguments, it is only listing processes run from the current shell. Most of the time, it is used with the +-e+ flag to display all running processes.
+
+kill
+^^^^
+mnemo::**KILL**
+
+The +kill+ command permits to ((kill)) specific processes. It can also be used to send a specific signal to a process. Without any flag, +kill+ is sending the +SIGTERM+ signal to the process, asking it for termination. If a program is not responding to +SIGTERM+ because it is crashing , it is sometime helping to send the +SIGKILL+ signal with the +-9+ flag, +9+ being the int value of the +SIGKILL+ signal.
+
+There is also the +pkill+(((pkill))) command which permits to signal processes based on their name instead of their PID.
+
+top
+^^^
+mnemo::**TOP**
+
+The +top+(((top))) command permits to show real-time informations about the system. Command +htop+(((htop))) do the same, but with colors and better display.
+
+
+== Users & Groups ==
+
+Every time you need to log into a Linux system, you must be identified as a ((user)), which belong to one or more ((group))s. 
+
+Class of users
+~~~~~~~~~~~~~~
+
+There exists only one 'type' of user, but its different usage and configuration permit to disgtinguish several classes, like: +normal+, +privileged+, +root+ or +system+.
+
+normal
+^^^^^^
+
+Normal users are the most common. They are configured to permit login by persons like you and me. It is used for instance if someone give you access to a production server to put some documents.
+
+privileged
+^^^^^^^^^^
+
+Privileged users are normal users, but who are in the list of sudo users, meaning then can gain root access with +sudo+ to have total control over the filesystem.
+
+root
+^^^^
+
+The root user is a special one. It is unique and have access to anything on the system.
+
+system
+^^^^^^
+
+System accounts are normal users, but with +/bin/false+ as configured shell. It will prevent them to loggin in the system with a shell. They are used by applications, for instance +mysql+, to be runned as user with limited access to the system, hence in case of vulnerability, the damages are limited.
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+User list
+^^^^^^^^^
+
+The file +/etc/passwd+(((passwd))) contains the list of all users of the system. For instance:
+
+----
+…
+course:x:1000:1000:Linux Course,,,:/home/course:/bin/bash
+…
+----
+
+With fields being:
+
+. user name
+. password validation method
+. user identifier (UID)
+. group identifier (GID)
+. commentary
+. home directory
+. shell
+
+On most modern distros, the +x+ password validation is used to say that the password is stored in a separate shadow file. The +\*+ can be use to disable direct login.
+
+User passwords
+^^^^^^^^^^^^^^
+
+The file +/etc/shadow+ contains all passwords for the user in the system. Passwords are stored encrypted and salted.
+
+----
+…
+course:$6$PnTOvoyy$Y/sWx9am9kp/SqBERphQ2lV5XmpppYhUcNGmhL/PRLyzLWebAXgozCPXyizWfPalT/0nZXhuomv8i9.jZvfbr1:16476:0:99999:7:::
+…
+----
+
+With fields being:
+
+. username
+. salt and hash of the password: +$id$salt$hashed+
+. Days since epoch last password change
+. Days until change allowed
+. Days befor change required
+. Days warning for expiration
+. Days befor account innactive
+. Days since epoch when account expires
+. Reserved
+
+Password can have different other values: Empty for no password, +!+ for password access disabled, +*+ for locked account.
+
+Group list
+^^^^^^^^^^
+
+The file +/etc/group+ contains the list of the group existing in the system, and also the mapping with the users:
+
+----
+…
+adm:x:4:syslog,course
+…
+sudo:x:27:course
+…
+course:x:1000:
+…
+----
+
+With fields being:
+
+. group name
+. group password, generally not used
+. group identifier (GID)
+. list of users in the group, comma separated
+
+Commands
+~~~~~~~~
+
+To interact with users and groups, there exit different programs which are doing only one precise task. This section give a short list of the principal ones. Get more info for a command with +man <command>+.
+
+whoami
+^^^^^^
+mnemo::**WHO** **AM** **I**
+
+The +whoami+(((whoami))) command will return the username as which the user is logged in.
+
+su
+^^
+mnemo::**S**uper **U**ser
+
+The +exit+(((exit))) command permits, as its name says, to exit from current session.
+
+sudo
+^^^^
+mnemo::**S**uper **U**ser **DO**
+
+The +sudo+(((sudo))) command will run the command passed as argument. The user who runs sudo must be in the sudoers list. To edit accesses, use the +visudo+(((visudo))) command. Usually distributions are allowing sudo for people belonging to a special group that could be called +sudo+, +wheel+ or +admin+. 

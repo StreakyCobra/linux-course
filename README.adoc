@@ -1,11 +1,13 @@
 Linux introductory course
 =========================
 
-:Author: Fabien Dubosson <fabien.dubosson@gmail.com>
+:imagesdir: images
+
+:Author: mailto:fabien.dubosson@gmail.com[Fabien Dubosson]
 :License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 :License url: http://creativecommons.org/licenses/by-nc-sa/4.0/
-:License image: image:https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[CC by-nc-sa 4.0 international]
-:License image small: image:https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png[CC by-nc-sa 4.0 international]
+:License image: image:cc-by-nc-sa.png[CC by-nc-sa 4.0 international]
+:License image small: image:cc-by-nc-sa-small.png[CC by-nc-sa 4.0 international]
 
 {licenseimagesmall}
 
@@ -13,8 +15,8 @@ This repository contains resources to give a linux introductory course to
 developers and power-users.
 
 
-Licensing
----------
+License
+-------
 
 {licenseimage}
 

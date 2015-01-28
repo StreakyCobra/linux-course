@@ -1,0 +1,386 @@
+[[part:shell]]
+Shell
+=====
+
+== Common shell usage ==
+
+Linux on itself only provides C function that can be called within programs. You have the possibility to call those functions by creating a compiling you own C program, but hopefully a lot of common fuctions have already been created. All these programs are in +/bin/+ or place like this. To use them, a shell is needed and offers a lot of facilitating functions. Shells are the main interface for (advanced) user when dealing with linux.
+
+Calling programs
+~~~~~~~~~~~~~~~~
+
+Calling programs is really simple. Just type the name of the application into the prompt. It only works for program that are placed in special paths in the file system, like +/bin/+. The shell looks for all places which are in the +$PATH+ environment variable to find the program. For commands which are not in this place, you must provide a full or relative path to the executable. Be careful, a relative path begining with "+./+" must be provided to be found.
+
+Command line arguments
+~~~~~~~~~~~~~~~~~~~~~~
+
+Command line arguments are separated by spaces. To include arguments which contain spaces, like file names, there is three posibilities:
+
+. Escape spaces, like this: +my\+ +file+
+. Surround with single quotes: +\'my files'+. Doesn't expand shell variables.
+. Surround with double quotes: +"my files"+. Expands shell variables.
+
+There is usually two kinds of arguments: named and positional. Named arguments are of the form +my_command --name test --var foo+, as posititional argument are of the form +my_command file1 file2+ and so one. From time to time, it happens that we need to pass positional arguments that looks like named one. For instance if you want to search for +-v+ in files, it will be considered as an option by the programm. To avoid this, the double dash +--+ permit to delimit named from positional arguments. The command will then be: +my_search  --  -v+.
+
+Variables
+~~~~~~~~~
+
+Shells have a variables system called environment variables. It permits to define variables which are then propagated to subshells. To declare variables:
+
+----
+$ MAVAR="32"
+----
+
+And to use them:
+
+----
+$ echo $MAVAR # Print 32
+$ echo ${MAVAR} # Print 32
+----
+
+Variable could also be used to store commands:
+
+----
+$ MYCMD=ls -al
+$ $MYCMD
+total 0
+drwxr-xr-x 1 root root    0 21 fév 20:49 .
+drwx------ 1 root root 3710 21 fév 20:49 ..
+----
+
+[NOTE]
+====
+Be careful about spaces in general with shells. Putting spaces before or after the equal sign doesn't work to define variables.
+====
+
+Globbing
+~~~~~~~~
+
+Globbing patterns permit to select files according to patterns they are like lightweight regular expressions. Here is a quick list of existing bash patterns:
+
+- +?+: match an unknown character
+- +*+: match zore or more unkown characters
+- +[a-c]+: match any character in the group +a+, +b+ or +c+
+- +[!a-c]+: match any character *not* in the group +a+, +b+ or +c+
+- +\+: escape the following character
+
+They can be composed together to get the wanted files:
+
+- +*+: match any file
+- +.*+: match any hidden file
+- +len*+: match any file starting with +len+
+- +\*len*+: match any file containing +len+
+- +[!a-c]\*len_*.txt+: match any file not starting with +a+, +b+ or +c+, containing +len+ and finishing by +.txt+
+
+Keys
+~~~~
+
+Usually, shells are offering shortcuts to send signals to running processes, or to do specials actions. Here is a short list of possibilities:
+
+- CTRL + C: Interrupt a process by sending the +SIGINT+ signal 
+- CTRL + Z: Suspend the running forground process and put it in the background by sending +SIGTSTP+
+- CTRL + V: Next characetr is verbatim: treated literally
+- CTRL + L: Clear the screen
+- CTRL + D: Terminate the current input
+- CTRL + R: Search back in history
+
+Alias
+~~~~~
+
+For repetinting commands, it is possible to define aliases. Alias can be only partialy applied, like providing only some parts of the arguments.
+
+----
+alias ll="ls -l"
+----
+
+Commands
+~~~~~~~~
+
+&amp;
+^^^^^
+
+mnemo::None
+
+The +&+ control symbol a the end of a command permit to run it as a background job. It means the shell is not waiting for it to finish before leting you to do something else.
+
+exit
+^^^^
+
+mnemo::**EXIT**
+
+The +exit+ command exit the current session.
+
+fg
+^^
+
+mnemo::**F**ore**G**round
+
+The +fg+ command permits to resume a suspended jobs in the foreground.
+
+bg
+^^
+
+mnemo::**B**ack**G**round
+
+The +bg+ command permits to resume a suspended jobs in the background.
+
+&#36;?
+^^^^^^
+
+mnemo::None
+
+The +$?+ command return the exit status of the last command.
+
+&#36;!
+^^^^^^
+
+mnemo::None
+
+The +$!+ command returns the PID of the last job run in background.
+
+&#36;&#36;
+^^^^^^^^^^
+
+mnemo::None
+
+The +$$+ variable returns the PID of the script itself.
+
+&#59;
+^^^^^
+
+mnemo::None
+
+The +;+ control symbol permits to separate two different commands
+
+&amp;&amp;
+^^^^^^^^^^
+
+mnemo::**AND**
+
+The +&&+ control symbol, placed after a command, permits to run what is after only if the command succeed.
+
+&#124;&#124;
+^^^^^^^^^^^^
+
+mnemo::**OR**
+
+The +||+ control symbol, placed after a command, permits to run what is after only if the command fails.
+
+== Getting help ==
+
+man pages
+~~~~~~~~~
+
+Most of the linux programs come with a ((manual)) page explaining:
+
+* What the program do
+* What is the syntax to call the program
+* What are the arguments, their syntax and what they are doing
+* And some other informations, like author, copyright, license, related contents, and so on.
+
+It must be the first page to look for when you search information about a program. The syntax is simple:
+
+----
+man <command>
+----
+
+There is different sections in the manual. They are described in the +man+ page of +man+. Sometimes there is a ((man)) page with the same name for both a linux system call and a program. Specifying the section permits to select the one you are interested in.
+
+To close the manual, press the key +q+ (for 'quit'). One useful shortcut is +/+ which permit to search inside the man page. If you search for an option, this is how to do it: First press +/+ then type the wanted string, +-n+ and then press +ENTER+ and loop over found values with +n+.
+
+help flag
+~~~~~~~~~
+
+Some programs does not come with a man page, but usually all programms have a +--help+ flag which display a ((help)) page with important informations about the program. This flag is sometimes +-h+ or sometimes its is just +help+.
+
+Most of the time you don't know in advance what is the flag, but calling the program without arguments (like +cp+) or by calling it with bad arguments, it shows you a message how to print the help message. For instance with cp:
+
+----
+cp: missing file operand
+Try 'cp --help' for more information.
+----
+
+Finding informations
+~~~~~~~~~~~~~~~~~~~~
+
+To find where is located a program, a man page or a source of a command, the program +whereis+(((whereis))) will give you the absolute paths to those file.
+
+In the same spirit, the command +whatis+(((whatis))) will display you the one-line summary of all man page matching the command name. It could also be used with the +-r+ flag to search for regular expression in this line and +-s+ flag to limit to certain section.
+
+For instance to search all 'executables or shell commands' which contains "copy" in the name:
+
+----
+man -r copy -s 1
+----
+
+A more general tool could be +apropos+(((apropos))), which search also in the description part of man pages. Running +apropos copy -s 1+ will search for all 'executable or shell commands' which contain the word +copy+ in their description.
+
+On the web
+~~~~~~~~~~
+
+If none of the aforementioned way of getting help is working, especially if you don't know what you are looking for, the web is a goldmine of informations. Don't hesitate to +google+ your question, +bing+ you question, or ask it on whatever search engine you use.
+
+Just to mention them, some Q&A websites are really linux oriented:
+
+- For scripting questions: https://stackoverflow.com/[StackOverflow]
+- For general linux questions: https://unix.stackexchange.com[Unix&Linux]
+- For advanced linux user usage questions: https://superuser.com/[SuperUser]
+- For system and network administrators questions: http://serverfault.com/[ServerFault]
+
+== Data flow ==
+
+The power of linux command line come from the possibility to create data flow, processes inputs and redirect them to the outputs, and redirects those output to files.
+
+stdin/stdout
+~~~~~~~~~~~~
+
+There exist different  inputs and outputs streams in programs. Three of them are standard: +stdin+, +stdout+ and +stderr+, but they can be represented by numbers: +0=stdin+, +1=stdout+ and +2=stderr+.
+
+- +stdin+ is the standard input of a program. All programs are reading from it.
+- +stdout+ is the standard output of a program. All programs are writing to it.
+- +stderr+ is the standard output for error messages. Error messages are not sent to +stdout+ to avoid perturbating programs when piping.
+
+Pipe
+~~~~
+
+The ((pipe)), represented by the vertical line +|+(((|))), permit to redirect the standard output of a program (what is normally displayed) to the standard input of another one. This is the main piece for the creation of a data flow.
+
+Simply separate two commands with a pipe to apply the data transmission:
+
+----
+$ echo "Hello world" | tr -d l
+Heo Word
+----
+
+Redirections
+~~~~~~~~~~~~
+
+It is possible to redirect the outputs with the following syntax at the end of the command:
+
+----
+A>&B # Redirect stream A to the stream B
+A>/some/file # Redirect stream A to a file
+A>>/some/file # Redirect stream A to a file in append mode
+----
+
+where +A+ and +B+ are both numerical values of IO streams. Most commonly used redirections:
+
+----
+mycommand >/dev/null # Discard the standard output
+mycommand 2>/dev/null # Discard the standard error
+mycommand >/dev/null 2>&1 # Discard both standard error and output
+mycommand 2>&1 >/dev/null # Discard standard output and redirect standard error to standard output
+----
+
+[NOTE]
+====
+Redirections are applied left to right, so the order is important!
+====
+
+== Scripting ==
+
+Scripting is nothing more than grouping all the commands that you have executed in a regular executable file, and to run it. Of course there is a lot more of bash command and control to make loops, conditional statements, etc. but sadly bash is old and hard to learn. If you are interested into this, look on internet and lear it the hard way: by doing mistakes ;-)
+
+Shells
+~~~~~~
+
+There exist several different shells, all with their own syntaxes and specificites. The most used one is +bash+, the most portable one is +sh+, but it is quiet limited. Whenever you want to do some scripts, be sure to write it in the script syntax that you need.
+
+Bang syntax
+~~~~~~~~~~~
+
+When you execute a text file from a terminal, the shell gwill first look at the first line of the file to see if the bang syntax is present. The bang syntax is the following:
+
+----
+#!/usr/bin/bash
+----
+
+It specify the name of the interpreter for executing the file. It must point to a valid path inside your file system. Some examples:
+
+----
+#!/usr/bin/sh
+#!/usr/bin/bash
+#!/usr/bin/zsh
+#!/usr/bin/python
+#!/usr/bin/perl
+#!/usr/bin/ruby
+----
+
+Commonly used programs
+~~~~~~~~~~~~~~~~~~~~~~
+
+Several programs are used really often. This section will present some of them.
+
+echo
+^^^^
+
+The +echo+(((echo))) command displays a line of text.
+
+grep
+^^^^
+
+The +grep+(((grep))) command filters the input and prints only matching lines to output. For instance running +cat myfile | grep TODO+ will only show lines containing the sequence +TODO+.
+
+sort
+^^^^
+
+The +sort+(((sort))) command sorts the input and prints sorted lines to the output. This command has flags for sorting numerically or textually, to sort by a specific column (by specifying the column delimiter).
+
+uniq
+^^^^
+
+The +uniq+(((uniq))) command reads the input and reports or omits repeated lines. It is useful for listing all distinct value, or in the opposite to find repeating ones.
+
+tr
+^^^^
+mnemo::**TR**anslate
+
+The +tr+(((tr))) command allows to translate (replace) specified characters with another ones, or to delete them. Examples: +cat myfile | tr \'A-Z' \'a-z'+ transform each uppercase character to lowercase equivalent. +cat myfile | tr -d \'0-9'+ delete all digits from the standard output.
+
+sed
+^^^
+mnemo::**S**tream **ED**itor
+
+The +sed+(((sed))) command allows to perform basic text transformations on the input stream, like replacing regex pattern with replacement value. The command +cat myfile | sed -e \'s/my/your/g'+ replace all occurences of +my+ by +your+. More complex pattern can be used with regex. The +-o+ flag allow to filter the output in the same manner as +grep+.
+
+awk
+^^^
+
+The +awk+(((awk))) command do more or less the same job than +sed+, but with different syntax and concepts.
+
+head
+^^^^
+
+The +head+(((head))) command keeps only the first part of the input. Without arguments it only shows the first 10 lines, but this can be configured with the +-n+ argument.
+
+tail
+^^^^
+
+The +tail+(((tail))) command keeps only the last part of the input. Without arguments it only shows the last 10 lines, but this can be configured with the +-n+ argument.
+
+[NOTE]
+====
+Combining both +head+ and +tail+, it is possible to shows only one precise line of the input: +cat myfile | head -n 135 | tail -n 1+ will only show the line #135.
+====
+
+wc
+^^
+mnemo::**W**ord **C**ount
+
+The +wc+(((wc))) command permits to show the number of lines, words and bytes in the standard input. By passing one of the +-l+, +-w+, +-c+ flag, it is possible to show only the wanted count.
+
+find
+^^^^
+
+The +find+(((find))) command searches for files and directories inside the filesystem hierarchy, and output their names to the standard output. It is usefull for automation.
+
+sleep
+^^^^^
+
+The +sleep+(((sleep))) command delays the following instructions by taking the specified amount of time to execute.
+
+date
+^^^^
+
+The +date+(((date))) command prints the system date and time. By default display it with current locale and timezone, but could be used to display in other format, like unix timestamps: +date +%s+.
+

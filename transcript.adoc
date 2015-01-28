@@ -1,0 +1,18 @@
+Linux course transcript
+=======================
+Fabien Dubosson
+0.1, January 2015
+:doctype: book
+:lang: en
+:codedir: codes
+:imagesdir: images
+
+:Author: Fabien Dubosson <fabien.dubosson@gmail.com>
+
+include::parts/preface.adoc[]
+include::parts/fundamentals.adoc[]
+include::parts/shell.adoc[]
+include::parts/environment.adoc[]
+include::parts/others.adoc[]
+include::parts/appendices.adoc[]
+
