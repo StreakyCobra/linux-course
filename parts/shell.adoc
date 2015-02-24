@@ -93,8 +93,8 @@ For repetinting commands, it is possible to define aliases. Alias can be only pa
 alias ll="ls -l"
 ----
 
-Commands
-~~~~~~~~
+Commands & Syntax
+~~~~~~~~~~~~~~~~~
 
 &amp;
 ^^^^^

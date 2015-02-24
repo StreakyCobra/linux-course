@@ -168,7 +168,7 @@ Distributions providing the +service+ utility can use it to start/stop services:
 update-rc.d
 ~~~~~~~~~~~
 
-Distributions providing the +service+ utility can use it to start/stop services.
+Distributions providing the +update-rc.d+ utility can use it to start/stop services.
 
 ----
 # update-rc.d <service> defaults # To enable at bootup

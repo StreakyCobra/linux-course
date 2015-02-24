@@ -13,7 +13,7 @@ Archiving consist of putting together several files/folders into one single file
 
 ----
 tar cvf a.tar /etc # Backup /etc into the a.tar file
-tar evf a.tar      # Etract back the content to /etc
+tar xvf a.tar      # Etract back the content to /etc
 ----
 
 Compression
@@ -28,7 +28,7 @@ The +tar+ flag for +gzip+ is +-z+.
 
 ----
 tar czvf a.tar.gz /etc # Backup /etc into the a.tar.gz file
-tar ezvf a.tar.gz      # Extract back the content to /etc
+tar xzvf a.tar.gz      # Extract back the content to /etc
 ----
 
 bzip2
@@ -40,7 +40,7 @@ The +tar+ flag for +bzip2+ is +-j+.
 
 ----
 tar cjvf a.tar.bz2 /etc # Backup /etc into the a.tar.bz2 file
-tar ejvf a.tar.bz2      # Extract back the content to /etc
+tar xjvf a.tar.bz2      # Extract back the content to /etc
 ----
 
 xz
@@ -52,7 +52,7 @@ The +tar+ flag for +xz+ is +-J+.
 
 ----
 tar cJvf a.tar.xz /etc # Backup /etc into the a.tar.xz file
-tar eJvf a.tar.xz      # Extract back the content to /etc
+tar xJvf a.tar.xz      # Extract back the content to /etc
 ----
 
 zip
@@ -71,12 +71,7 @@ unzip -fo foo ReadMe # quietly replace existing ReadMe if archive file newer
 
 == Useful commands ==
 
-netcat
-telnet
-wget
-dd
-sort
-tee
+This section lists differents programs, oftenly used, without any order nor categorization.
 
 netcat
 ~~~~~~

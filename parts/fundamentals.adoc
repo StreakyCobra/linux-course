@@ -61,7 +61,7 @@ Another way to represent those right are using numerical values. You can read ea
 0 7   5   0   # Read as binary numbers
 ----
 
-The numerical representation of this permission is then +0750+, or just +750+. This representation can be used with the +chmod+ command to change access right to a file/folders.
+The numerical representation of this permission is then +0750+, or just +750+. This representation can be used with the +chmod+(((chmod))) command to change access right to a file/folders.
 
 Some commonly used access right:
 
@@ -74,6 +74,8 @@ Some commonly used access right:
 * Folders must be executable otherwise it is not possible to access them.
 * There exist other special rights like +setuid+, +setgid+, +sticky+, but there are not explained here.
 ====
+
+The person and group owning a file can be seen with +ln -l+. To change this, the +chown+(((chown))) program allows to specify the name of the owner and of the group for files passed as arguments. The syntax is the following: +chown user:group myfile.txt+ (replace user and group by desired values).
 
 Commands
 ~~~~~~~~
@@ -119,7 +121,7 @@ The +ln+(((ln))) command permits to ((link)) files or directories together. Ther
 
 == Directories ==
 
-The ((directories)) (or ((folders))) in Linux permits to group files together, and files and folders hirerachically. The same naming rules apply for directories as the ones for files. Hidden folders are also recognizable by their "+.+" prefix.
+The ((directories)) — also called ((folders)) — in Linux permits to group files together, and files and folders hirerachically. The same naming rules apply for directories as the ones for files. Hidden folders are also recognizable by their "+.+" prefix.
 
 Commands
 ~~~~~~~~
