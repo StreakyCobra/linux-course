@@ -1,7 +1,7 @@
 Linux course transcript
 =======================
 Fabien Dubosson
-0.1, January 2015
+1.0, February 24, 2015: First public version
 :doctype: book
 :lang: en
 :codedir: codes
