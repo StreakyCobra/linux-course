@@ -1,0 +1,176 @@
+[[part:environment]]
+Environment
+===========
+
+== Editors ==
+
+Editing files on linux from the command line can be done with the help of text editor. The most known of them are +nano+, +vi(m)+ and +emacs+.
+
+nano
+~~~~
+
+GNU +nano+(((nano))) is a text editor which is used by default on some distribution because it is the simpliest to use of the three. The keys shortcuts are displayed at the bottom of the screen, and when keys are pressed they are directly modifying the content of the file.
+
+Main keys shortcuts:
+
+* CTRL + R: Read a file (ask for the name)
+* CTRL + O: Write a file (ask for the name)
+* CTRL + X: Exit the program (ask for unsaved changes)
+
+Simple and conveniant for people who are not used to the other ones.
+
+vi(m)
+~~~~~
+
+There exists two distinct versions: +vi+(((vi))) and +vim+(((vim))). +vi+ is the oldest and more simpliest one. It is usally shipped with all linux distributions. +vim+ for 'vi improved' is not installed by default on all distributions, but provides some better and more convenients features and is the most used by advanced users.
+
+The principal trouble for understanding +vi+ is its modality. There is different modes in which the same keys doesn't have the same meaning. Basically there is 2 modes:
+
+* insert
+* normal
+
+In the insert mode, every key pressed is modifying directly the file, like in +nano+. The normal mode is used for modifing the buffer with commands, so for instance pressing +j+ will not insert the letter +j+ but will instead go to the line under. +vi+ start in this normal mode, it is why people are lost the first time they open it. Here are some basic concept to understand it.
+
+* When +vi+ start, it is in normal mode.
+* To edit the content like in any other text editor, press +i+ to go in insert mode.
+* When the edit is finished, press +ESC+ to go back in normal mode
+* To save the result, enter +:w+ in normal mode
+* To quit vim, press +:q+ in normal mode
+
+This is the most basic workflow to use for editing files. Of course there is a lot more power than this. It is worth to learn it.
+
+emacs
+~~~~~
+
+The principale opponent to +vim+ is +emacs+(((emacs))). Choosing between the two is a matter of personal opinions. +emacs+ is not presented here because it is usually not shipped directly with the distribution, you have to install it manually.
+
+== Regexp ==
+
+There exists a lot of online tutorial about regular expressions. Here just the basics are explained.
+
+Rules
+~~~~~
+
+Regular expressions is a way to match pattern in text. It permits to express formally some patterns like «All text beginning with +a+ and ending with +b+». It is a central part of computer science.
+
+Regex differs regarding to the engine used, but often it works at following: «All characters match themself, except for the following ones…». Because this list of exception differs from the engine used, here is a quick summary of the most common one:
+
+* +.+: match any character except a new line
+* +^+: match the beginning of the line
+* +$+: match the end of the line
+* +\+: escape the following character
+* +*+: zero or more repetition of the preceding matched expression
+* +++: one or more repetition of the preceding matched expression
+* +?+: zero or one repetition of the preceding matched expression
+* +\{m}+: +m+ repetitions of the preceding matched expression
+* +{m,n}+: +m+ to +n+ repetitions of the preceding matched expression
+* +(…)+: match exactly the sequence inside the parethesis
+* +[…]+: match any character inbetween the bracket 
+* +[^…]+: match any character not inbetween the bracket 
+* +[a-z]+: match any character between +a+ and +z+, only used inside brackets
+
+All those symbols can be grouped together to construct more complex expressions, like:
+
+----
+^a*e$     # Any line beginning with "a" and ending with "e"
+^[0-9]{2} # Any line beginning with two digits
+cat       # Any line containing the sequence "cat"
+----
+
+Programs using regexp
+~~~~~~~~~~~~~~~~~~~~~
+
+* +grep+ as an option +-E+ to search for regular expressions.
+* +sed+ uses by default regular expression to search for matches.
+* +perl+ is the reference for regular expressions. It is possible to use it from command line like +sed+ like:
+
+----
+perl -lpe \'s/my/your/g'
+----
+
+== Filesystem Hierarchy Standard ==
+
+Linux defines a 'Filesystem Hierarchy Standard' to standardize location of installed files and directories, to help applications putting files at their correct places and to help users backuping their important files:
+
+----
+/bin       Essential command binaries
+/boot      Static files of the boot loader
+/dev       Device files
+/etc       Host-specific system configuration
+/lib       Essential shared libraries and kernel modules
+/media     Mount point for removeable media
+/mnt       Mount point for mounting a filesystem temporarily
+/opt       Add-on application software packages
+/sbin      Essential system binaries
+/srv       Data for services provided by this system
+/tmp       Temporary files
+/usr       Secondary hierarchy
+/var       Variable data
+
+/home	   User home directories (optional)
+/lib<qual> Alternate format essential shared libraries (optional)
+/root	   Home directory for the root user (optional)
+----
+
+Most important places for users and admins are:
+
+* +/bin+: Where all executables are placed
+* +/etc+: Where all configuration files must be placed
+* +/var+: Where all variable data are (joural, logs, etc.)
+* +/home+: Where home folders are located.
+
+
+== System administration ==
+
+User administration
+~~~~~~~~~~~~~~~~~~~
+
+To administrate users on the machine (create, modify, remove), there is a series of tools respectively called +useradd+(((useradd))), +usermod+(((usermod))), +userdel+(((userdel))).
+
+Some distributions also package +adduser+ which has an interactive prompt for adding user and is thus more user-friendly.
+
+groups administration
+~~~~~~~~~~~~~~~~~~~~~
+
+To administrate groups on the machine (create, modify, remove), there is a series of tools respectively called +groupadd+(((groupadd))), +groupmod+(((groupmod))), +groupdel+(((groupdel))).
+
+Services
+~~~~~~~~
+
+Services are really distribution dependent. If your are using on a +systemd+(((systemd))) based distribution, all the services are managed with +systemctl+. On other distributions, some really olds are using +rc.d+ to manage services, some other offers a +service+(((service))) and +update-rc.d+(((update-rc.d))) commands to help managing them.
+
+You can also try to have a look at +chkconfig+ and +ntsysv+ on your system.
+
+systemd
+~~~~~~~
+
+On +systemd+ servers, the command to manage services are the following:
+
+----
+# systemctl enable <service>   # Set the service to start at boot time
+# systemctl disable <service>  # Don't set the service to start at boot time
+# systemctl start <service>    # Start the service
+# systemctl stop <service>     # Stop the service
+# systemctl restart <service>  # Restart the service
+----
+
+service
+~~~~~~~
+
+Distributions providing the +service+ utility can use it to start/stop services:
+
+----
+# service <service> start    # Start the service
+# service <service> stop     # Stop the service
+# service <service> restart  # Restart the service
+----
+
+update-rc.d
+~~~~~~~~~~~
+
+Distributions providing the +update-rc.d+ utility can use it to start/stop services.
+
+----
+# update-rc.d <service> defaults # To enable at bootup
+# update-rc.d <service> remove  # To disable at bootup
+----

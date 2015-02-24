@@ -1,0 +1,97 @@
+[[part:others]]
+Others
+======
+
+== Compression ==
+
+Compression and archiving are important parts of Linux.
+
+Archiving
+~~~~~~~~~
+
+Archiving consist of putting together several files/folders into one single file. The +tar+(((tar))) command is the most uzed one. It directly permit to compress the created archive by giving the correct flag.
+
+----
+tar cvf a.tar /etc # Backup /etc into the a.tar file
+tar xvf a.tar      # Etract back the content to /etc
+----
+
+Compression
+~~~~~~~~~~~
+
+gzip
+^^^^
+
++gzip+(((gzip))) is one of the oldest tool available for compression. It is a relatively good compromise between compression ratio and speed. It also have a relatively small memory footprint. Choose this if you don't have bandwith/network limitations.
+
+The +tar+ flag for +gzip+ is +-z+.
+
+----
+tar czvf a.tar.gz /etc # Backup /etc into the a.tar.gz file
+tar xzvf a.tar.gz      # Extract back the content to /etc
+----
+
+bzip2
+^^^^^
+
++bzip2+(((bzip2))) is the old concurrent of +gzip+. It was used mainly for the good compression ratio. Nowadays it is forgetten in favor of +LZMA2+ based algorithms like +xz+.
+
+The +tar+ flag for +bzip2+ is +-j+.
+
+----
+tar cjvf a.tar.bz2 /etc # Backup /etc into the a.tar.bz2 file
+tar xjvf a.tar.bz2      # Extract back the content to /etc
+----
+
+xz
+^^
+
+One of the last born of the compression format based on +LZMA2+ algorithm. It is slower than +gzip+, but compress better than +bzip2+. Choose this for reducing bandwith or slow network.
+
+The +tar+ flag for +xz+ is +-J+.
+
+----
+tar cJvf a.tar.xz /etc # Backup /etc into the a.tar.xz file
+tar xJvf a.tar.xz      # Extract back the content to /etc
+----
+
+zip
+^^^
+
+This format is mostly used on Windows operating systems. Linux has also a command line implementation of this algorithm: +zip+ and +unzip+.
+
+----
+zip stuff *          # Compress everything into a stuff.zip example
+zip stuff .* *       # Compress everything, including hidden files, into a stuff.zip example
+zip -r stuff *       # Compress everything recursively into a stuff.zip example
+unzip data1 -x joe   # extract all files except joe from zipfile data1.zip
+unzip -p foo | more  # send contents of foo.zip via pipe into program more
+unzip -fo foo ReadMe # quietly replace existing ReadMe if archive file newer
+----
+
+== Useful commands ==
+
+This section lists differents programs, oftenly used, without any order nor categorization.
+
+netcat
+~~~~~~
+mnemo::**NET**work con**CAT**enate
+
+The +netcat+(((netcat))) command is like the cat command, except that it handles network connections. It can read and write data accross network connections. It is often call the swiss army knife of networking.
+
+wget
+~~~~
+mnemo::**W**eb **GET**
+
+The +wget+(((wget))) permits to download files from the web.
+
+dd
+~~
+
+The +dd+(((dd))) is a low-level tool to convert and copy files. Its main usage is for reading/writing to peripherial devices, to hard-disk, to USB drives. For instance to create a bootable USB stick of a distribution like Arch Linux, the +dd+ program is used to copy byte per byte the image on the USB stick.
+
+tee
+~~~
+
+The +tee+(((tee))) command allows to duplicate the output of a command to both the shell and a file. It allows to log events and seeing them at the same time for instance.
+

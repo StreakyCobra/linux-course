@@ -1,0 +1,18 @@
+[preface]
+Preface
+=======
+:License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+:License url: http://creativecommons.org/licenses/by-nc-sa/4.0/
+:License image: image:cc-by-nc-sa.eps[CC by-nc-sa 4.0 international]
+:License image small: image:cc-by-nc-sa-small.eps[CC by-nc-sa 4.0 international]
+
+This document is the transcript of my Linux course. It provides a summary of all important informations transmitted during the course. It does not pretend to be exhaustive, nor containing all informations given during the course. It is more like a reminder of all presented subjects.
+
+The first part, <<part:fundamentals,Fundamentals>>, introduce some fundamental concepts of linux: Files, Folders, Processes, Users and Groups. A part about the <<part:shell,Shell>> follows and gives informations on how to use the shell efficiently. Some important pieces of the linux environment are then presented in the <<part:environment,Environment>> part. Finally, <<part:others,Others>> regroups several topics, either more advanced or not fitting into others chapters. At the end of this document, a glossary is provided to help navigating it. 
+
+All contents are distributed under the {licenseurl}[{license}] terms.
+
+{licenseimagesmall}
+
+© {author}
+
