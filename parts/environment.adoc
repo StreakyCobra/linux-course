@@ -36,6 +36,8 @@ In the insert mode, every key pressed is modifying directly the file, like in +n
 * When the edit is finished, press +ESC+ to go back in normal mode
 * To save the result, enter +:w+ in normal mode
 * To quit vim, press +:q+ in normal mode
+* It is possible to save and quit at once with +:wq+
+* It is possible to save and discard changes with +:q!+
 
 This is the most basic workflow to use for editing files. Of course there is a lot more power than this. It is worth to learn it.
 
@@ -85,7 +87,7 @@ Programs using regexp
 * +perl+ is the reference for regular expressions. It is possible to use it from command line like +sed+ like:
 
 ----
-perl -lpe \'s/my/your/g'
+perl -lpe 's/my/your/g'
 ----
 
 == Filesystem Hierarchy Standard ==

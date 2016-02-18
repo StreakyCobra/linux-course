@@ -40,9 +40,9 @@ drwxrwxrwx
 The meaning is the following:
 
 * The first (indicative) character (+d+) specify if this is a directory or not
-* The 3 following characters (+rws+) define access for the owner (UID)
-* The 3 following characters (+rws+) define access for the group (GID)
-* The 3 following characters (+rws+) define access for other users
+* The 3 following characters (+rwx+) define access for the owner (UID)
+* The 3 following characters (+rwx+) define access for the group (GID)
+* The 3 following characters (+rwx+) define access for other users
 
 Some examples:
 
@@ -75,7 +75,7 @@ Some commonly used access right:
 * There exist other special rights like +setuid+, +setgid+, +sticky+, but there are not explained here.
 ====
 
-The person and group owning a file can be seen with +ln -l+. To change this, the +chown+(((chown))) program allows to specify the name of the owner and of the group for files passed as arguments. The syntax is the following: +chown user:group myfile.txt+ (replace user and group by desired values).
+The person and group owning a file can be seen with +ls -l+. To change this, the +chown+(((chown))) program allows to specify the name of the owner and of the group for files passed as arguments. The syntax is the following: +chown user:group myfile.txt+ (replace user and group by desired values).
 
 Commands
 ~~~~~~~~
@@ -118,6 +118,17 @@ mnemo::**L**i**N**k
 
 The +ln+(((ln))) command permits to ((link)) files or directories together. There exist two kinds of links: soft and hard. Soft links ( ((symbolic links)) ), by using the +-s+ flag are refering to a location in the filesystem, for instance to +/home/user/my/file.txt+, and whenever the filesystem encounters a symlink, the link is followed and the other file is used instead. Hard links are dependent of the file system used, but in general the hard linked file points to the same location in memory (same inode) as the linked one. It is not any longer a «link» for the filesystem, but the same file in memory have two files pointing to it. Modifying the file will update both files at the same time. Hard links are used only in a very rare few cases.
 
+chmod
+^^^^^
+mnemo::**CH**ange **MOD**e
+
+The +chmod+(((chmod))) command permits to ((change)) the permission of files and directories. The +-r+ flag can be used to apply the change recursively on folders. Folders need the +x+ execution bit otherwise it's not possible to visit them.
+
+chown
+^^^^^
+mnemo::**CH**ange **OWN**er
+
+The +chown+(((chown))) command permits to ((change)) the owner and group of files and directories. The +-r+ flag can be used to apply the change recursively on folders.
 
 == Directories ==
 
@@ -304,11 +315,17 @@ mnemo::**WHO** **AM** **I**
 
 The +whoami+(((whoami))) command will return the username as which the user is logged in.
 
+passwd
+^^^^^^
+mnemo::**PASSW**or**D**
+
+The +passwd+(((passwd))) command permits to change user passwords.
+
 su
 ^^
-mnemo::**S**uper **U**ser
+mnemo::**S**witch **U**ser
 
-The +exit+(((exit))) command permits, as its name says, to exit from current session.
+The +su+(((su))) command permits to switch to another user, default to +root+ if no user is given.
 
 sudo
 ^^^^

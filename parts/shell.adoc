@@ -166,6 +166,14 @@ mnemo::**OR**
 
 The +||+ control symbol, placed after a command, permits to run what is after only if the command fails.
 
+jobs
+^^^^
+
+mnemo::**JOBS**
+
+The +jobs+ command allow to list and display the status of jobs in the current session.
+
+
 == Getting help ==
 
 man pages
